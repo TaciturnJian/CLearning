@@ -137,4 +137,38 @@ void PrintMatrixCross(MatP matp) {
 	printf("]\n");
 }
 
+inline char SameSize(MatP a, MatP b) {
+	return (a->Cols == b->Cols) && (a->Rows == b->Rows);
+}
+
+MatP SameSizeMatrixOperation(MatP a, MatP b, number (*opration)(number,number)) {
+	if (opration == 0)
+		return 0;
+
+	if (SameSize(a, b)) {
+		MatP result = CreateMatrix(a->Rows, a->Cols);
+		for (int r = 0; r < result->Rows; r++) {
+			for (int c = 0; c < result->Cols; c++) {
+				result MatAt(r, c) = opration(a MatAt(r, c), b MatAt(r, c));
+			}
+		}
+		return result;
+	}
+}
+
+inline number MatrixOperation_NumberAdd(number a, number b) {
+	return a + b;
+}
+inline number MatrixOperation_NumberSub(number a, number b) {
+	return a - b;
+}
+
+inline MatP AddMatrix(MatP a, MatP b) {
+	return SameSizeMatrixOperation(a, b, MatrixOperation_NumberAdd);
+}
+
+inline MatP SubMatrix(MatP a, MatP b) {
+	return SameSizeMatrixOperation(a, b, MatrixOperation_NumberSub);
+}
+
 #endif
